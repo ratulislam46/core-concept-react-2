@@ -3,8 +3,34 @@ import './App.css'
 import Counter from './count'
 import Batsman from './Batsman'
 import Bowler from './Bowler'
+import Users from './Users'
+import { Suspense } from 'react'
+import Friends from './Friends'
+import Posts from './Posts'
+
+
+
+const fetchPosts = async () => {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+  return res.json();
+}
+
+const fetchUsers = fetch('https://jsonplaceholder.typicode.com/users')
+.then(res =>res.json())
+
+const fetchFriends = async () => {
+  const res = await  fetch ('https://jsonplaceholder.typicode.com/users')
+  return res.json();
+}
+
 
 function App() {
+  
+  const postPromise = fetchPosts();
+
+  const friendsPromise = fetchFriends();
+
+
   function handleClick(){
     alert("I am clicked")
   }
@@ -19,7 +45,19 @@ function App() {
   return (
     <>
       <h1>Vite + React</h1>
-      <Bowler></Bowler>
+      
+      <Suspense fallback = { <p>Processing Post details...</p>}>
+        <Posts postPromise={postPromise}></Posts>
+      </Suspense>
+      
+      <Suspense fallback={<p>Friends are coming for treat...</p>}>
+      <Friends friendsPromise={friendsPromise}></Friends>
+      </Suspense>
+      
+      <Suspense fallback= {<p>Loading...</p>}>
+        <Users fetchUsers={fetchUsers}></Users>
+      </Suspense>
+      
       <Batsman></Batsman>
       <Counter></Counter>
       {/* <button onClick="handleClick()">Click Me </button> */}
