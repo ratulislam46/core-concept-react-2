@@ -7,6 +7,7 @@ import Users from './Users'
 import { Suspense } from 'react'
 import Friends from './Friends'
 import Posts from './Posts'
+import Players from './Players'
 
 
 
@@ -45,6 +46,8 @@ function App() {
   return (
     <>
       <h1>Vite + React</h1>
+
+      <Players></Players>
       
       <Suspense fallback = { <p>Processing Post details...</p>}>
         <Posts postPromise={postPromise}></Posts>
